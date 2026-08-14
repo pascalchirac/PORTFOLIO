@@ -35,6 +35,11 @@ test("server-renders the professional portfolio", async () => {
   assert.match(html, /SICPA TOGO/);
   assert.match(html, /10 sites industriels/);
   assert.match(html, /AS PHARM TOGO/);
+  assert.match(html, /Mars 2025 — Mai 2025 · Mission clôturée/);
+  assert.match(html, /Depuis janvier 2025 · Missions saisonnières/);
+  assert.match(html, /Consultant technique — Réseaux, systèmes &amp; supervision/);
+  assert.match(html, /Du terrain/);
+  assert.match(html, /FTTH \/ FTTx \/ GPON — montée en compétence/);
   assert.match(html, /BRAIN FACTORY SARL/);
   assert.match(html, /BAHAAU Technologies Consulting/);
   assert.match(html, /DUT en Génie mécanique et productique/);
@@ -61,6 +66,12 @@ test("keeps the authenticated career additions in both site versions", async () 
   assert.match(staticPage, /Stages techniques/);
   assert.match(staticPage, /Commission Électorale Nationale Indépendante/);
   assert.match(staticPage, /Nouvelle Société Cotonnière du Togo/);
+  assert.match(staticPage, /Mars 2025 — Mai 2025/);
+  assert.match(staticPage, /Mission clôturée en mai 2025/);
+  assert.match(staticPage, /Missions saisonnières de consultant/);
+  assert.match(staticPage, /Consultant technique — Réseaux, systèmes & supervision/);
+  assert.match(staticPage, /Seuls l’adresse e-mail et le consentement sont obligatoires/);
+  assert.doesNotMatch(staticPage, /Mars 2025 — Aujourd’hui/);
   assert.match(layout, /EPEY Pascal Chirac — Support IT N2/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));
