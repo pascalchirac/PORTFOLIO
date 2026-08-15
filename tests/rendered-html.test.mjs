@@ -31,17 +31,16 @@ test("server-renders the professional portfolio", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>EPEY Pascal Chirac — Support IT N2<\/title>/i);
+  assert.match(html, /<title>EPEY Pascal Chirac — Technicien NOC &amp; Support IT N2<\/title>/i);
   assert.match(html, /SICPA TOGO/);
   assert.match(html, /10 sites industriels/);
-  assert.match(html, /AS PHARM TOGO/);
   assert.match(html, /Mars 2025 — Mai 2025 · Mission clôturée/);
   assert.match(html, /Depuis janvier 2025 · Missions saisonnières/);
   assert.match(html, /Consultant technique — Réseaux, systèmes &amp; supervision/);
-  assert.match(html, /Du terrain/);
+  assert.match(html, /NOC opérationnel/);
+  assert.match(html, /SOC en construction/);
+  assert.match(html, /Orientation SOC/);
   assert.match(html, /FTTH \/ FTTx \/ GPON — montée en compétence/);
-  assert.match(html, /BRAIN FACTORY SARL/);
-  assert.match(html, /BAHAAU Technologies Consulting/);
   assert.match(html, /DUT en Génie mécanique et productique/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
@@ -72,7 +71,9 @@ test("keeps the authenticated career additions in both site versions", async () 
   assert.match(staticPage, /Consultant technique — Réseaux, systèmes & supervision/);
   assert.match(staticPage, /Seuls l’adresse e-mail et le consentement sont obligatoires/);
   assert.doesNotMatch(staticPage, /Mars 2025 — Aujourd’hui/);
-  assert.match(layout, /EPEY Pascal Chirac — Support IT N2/);
+  assert.match(layout, /EPEY Pascal Chirac — Technicien NOC & Support IT N2/);
+  assert.match(staticPage, /data-filter="NOC \/ Supervision"/);
+  assert.match(staticPage, /og-noc-soc\.png/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));
 });
