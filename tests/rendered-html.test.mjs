@@ -38,10 +38,12 @@ test("server-renders the professional portfolio", async () => {
   assert.match(html, /Depuis janvier 2025 · Missions saisonnières/);
   assert.match(html, /Consultant technique — Réseaux, systèmes &amp; supervision/);
   assert.match(html, /NOC opérationnel/);
-  assert.match(html, /SOC en construction/);
+  assert.match(html, /Évolution structurée/);
   assert.match(html, /Orientation SOC/);
   assert.match(html, /FTTH \/ FTTx \/ GPON — montée en compétence/);
   assert.match(html, /DUT en Génie mécanique et productique/);
+  assert.match(html, /Sauvegarde, restauration &amp; résilience avec Veeam/);
+  assert.match(html, /Maquette virtualisée et isolée/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
@@ -60,6 +62,9 @@ test("keeps the authenticated career additions in both site versions", async () 
     assert.match(source, /BRAIN FACTORY SARL/);
     assert.match(source, /BAHAAU Technologies Consulting/);
     assert.match(source, /DUT en Génie mécanique et productique/);
+    assert.match(source, /Sauvegarde, restauration & résilience avec Veeam/);
+    assert.match(source, /lab-veeam-architecture\.png/);
+    assert.match(source, /lab-veeam-restauration\.png/);
   }
 
   assert.match(staticPage, /Stages techniques/);
