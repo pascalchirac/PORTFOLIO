@@ -44,6 +44,9 @@ test("server-renders the professional portfolio", async () => {
   assert.match(html, /DUT en Génie mécanique et productique/);
   assert.match(html, /Sauvegarde, restauration &amp; résilience avec Veeam/);
   assert.match(html, /Maquette virtualisée et isolée/);
+  assert.match(html, /Sécurité End-Users/);
+  assert.match(html, /SENSIPRO by WAKING/);
+  assert.match(html, /securite-end-users-sensipro-2026\.pdf/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
@@ -65,6 +68,9 @@ test("keeps the authenticated career additions in both site versions", async () 
     assert.match(source, /Sauvegarde, restauration & résilience avec Veeam/);
     assert.match(source, /lab-veeam-architecture\.png/);
     assert.match(source, /lab-veeam-restauration\.png/);
+    assert.match(source, /Sécurité End-Users/);
+    assert.match(source, /SENSIPRO by WAKING/);
+    assert.match(source, /securite-end-users-sensipro-2026\.pdf/);
   }
 
   assert.match(staticPage, /Stages techniques/);
