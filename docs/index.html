@@ -142,7 +142,7 @@
       <div class="cvDialogHead">
         <p class="eyebrow">Téléchargement du CV</p>
         <h2 id="cv-dialog-title">Recevoir mon CV</h2>
-        <p id="cv-dialog-description">Le CV sera envoyé uniquement à votre adresse e-mail, sans téléchargement immédiat. Utilisez une adresse à laquelle vous avez accès. Le prénom, le nom et la société sont facultatifs.</p>
+        <p id="cv-dialog-description">Renseignez votre adresse e-mail et donnez votre consentement pour recevoir le CV et m’informer de son téléchargement. Le prénom, le nom et la société sont facultatifs.</p>
       </div>
       <form class="cvForm" id="cv-download-form" action="https://script.google.com/macros/s/AKfycby-aCKrKPt5I1-9PUsZRbxc4Hqu7ibkFUI0LrMqaCCCDPdBHthUc3uCGceB7wsgDAsT/exec" method="post" target="cv-download-window">
         <div class="cvFormGrid">
@@ -151,12 +151,12 @@
           <label class="cvField cvFieldFull"><span>Société <small class="cvOptional">(facultatif)</small></span><input name="company" type="text" autocomplete="organization" maxlength="120"></label>
           <label class="cvField cvFieldFull"><span>Adresse e-mail <b class="cvRequired" aria-hidden="true">*</b></span><input id="cv-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required></label>
         </div>
-        <label class="cvConsent"><input name="consent" type="checkbox" value="yes" required><span>J’accepte que ces informations soient enregistrées pour recevoir le CV et que son propriétaire soit informé de cette demande. <b class="cvRequired" aria-hidden="true">*</b></span></label>
-        <p class="cvPrivacy">Les données sont conservées dans une feuille Google privée et envoyées par e-mail à EPEY Pascal Chirac. Elles servent uniquement à l’envoi du CV et au suivi des demandes. Leur suppression peut être demandée à pascalchiracepey@gmail.com.</p>
+        <label class="cvConsent"><input name="consent" type="checkbox" value="yes" required><span>J’accepte que ces informations soient enregistrées pour recevoir le CV et que son propriétaire soit informé de ce téléchargement. <b class="cvRequired" aria-hidden="true">*</b></span></label>
+        <p class="cvPrivacy">Les données sont conservées dans une feuille Google privée et envoyées par e-mail à EPEY Pascal Chirac. Elles servent uniquement au suivi des téléchargements du CV. Leur suppression peut être demandée à pascalchiracepey@gmail.com.</p>
         <label class="cvHoneypot" aria-hidden="true">Site web<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
         <input name="startedAt" type="hidden" value="">
         <input name="source" type="hidden" value="Portfolio GitHub Pages">
-        <button class="cvSubmit" type="submit">Recevoir le CV par e-mail</button>
+        <button class="cvSubmit" type="submit">Enregistrer et télécharger le CV</button>
         <p class="cvFormNote">Seuls l’adresse e-mail et le consentement sont obligatoires.</p>
       </form>
     </div>
@@ -185,7 +185,7 @@
     cvDialog.querySelector('.cvDialogClose').addEventListener('click',closeCvDialog);
     cvDialog.addEventListener('click',event=>{if(event.target===cvDialog)closeCvDialog();});
     cvDialog.addEventListener('close',()=>{document.body.classList.remove('cvDialogOpen');if(cvLastFocus)cvLastFocus.focus();});
-    cvForm.addEventListener('submit',()=>{cvSubmit.disabled=true;cvSubmit.textContent='Préparation de l’envoi…';window.setTimeout(()=>{closeCvDialog();cvForm.reset();cvSubmit.disabled=false;cvSubmit.textContent='Recevoir le CV par e-mail';},900);});
+    cvForm.addEventListener('submit',()=>{cvSubmit.disabled=true;cvSubmit.textContent='Préparation du téléchargement…';window.setTimeout(()=>{closeCvDialog();cvForm.reset();cvSubmit.disabled=false;cvSubmit.textContent='Enregistrer et télécharger le CV';},900);});
   </script>
 </body>
 </html>
