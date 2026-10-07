@@ -5,4 +5,7 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://pascalchirac.github.io/PORTFOLIO/cv.html</loc>
+  </url>
 </urlset>
