@@ -35,11 +35,13 @@ test("server-renders the professional portfolio", async () => {
   assert.match(html, /SICPA TOGO/);
   assert.match(html, /10 sites industriels/);
   assert.match(html, /Mars 2025 — Mai 2025 · Mission clôturée/);
-  assert.match(html, /Depuis janvier 2025 · Missions saisonnières/);
-  assert.match(html, /Consultant technique — Réseaux, systèmes &amp; supervision/);
+  assert.match(html, /Depuis juillet 2025 · Missions NOC selon les besoins/);
+  assert.match(html, /Ingénieur NOC &amp; Network Operations/);
+  assert.match(html, /Centreon/);
+  assert.match(html, /Windows Server 2012\/2016\/2019/);
   assert.match(html, /NOC opérationnel/);
   assert.match(html, /Évolution structurée/);
-  assert.match(html, /Orientation SOC/);
+  assert.match(html, /Sécurité &amp; continuité/);
   assert.match(html, /FTTH \/ FTTx \/ GPON — montée en compétence/);
   assert.match(html, /DUT en Génie mécanique et productique/);
   assert.match(html, /Sauvegarde, restauration &amp; résilience avec Veeam/);
@@ -78,8 +80,11 @@ test("keeps the authenticated career additions in both site versions", async () 
   assert.match(staticPage, /Nouvelle Société Cotonnière du Togo/);
   assert.match(staticPage, /Mars 2025 — Mai 2025/);
   assert.match(staticPage, /Mission clôturée en mai 2025/);
-  assert.match(staticPage, /Missions saisonnières de consultant/);
-  assert.match(staticPage, /Consultant technique — Réseaux, systèmes & supervision/);
+  assert.match(staticPage, /Missions NOC selon les besoins/);
+  assert.match(staticPage, /Ingénieur NOC & Network Operations/);
+  assert.match(staticPage, /Technicien informatique et maintenance/);
+  assert.match(staticPage, /Windows Server/);
+  assert.match(staticPage, /Zimbra/);
   assert.match(staticPage, /Seuls l’adresse e-mail et le consentement sont obligatoires/);
   assert.doesNotMatch(staticPage, /Mars 2025 — Aujourd’hui/);
   assert.match(layout, /EPEY Pascal Chirac — Technicien NOC & Support IT N2/);
@@ -88,3 +93,4 @@ test("keeps the authenticated career additions in both site versions", async () 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await assert.rejects(access(new URL("../app/_sites-preview", templateRoot)));
 });
+
