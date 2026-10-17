@@ -39,6 +39,11 @@ test("server-renders the professional portfolio", async () => {
   assert.match(html, /Ingénieur NOC &amp; Network Operations/);
   assert.match(html, /Centreon/);
   assert.match(html, /Windows Server 2012\/2016\/2019/);
+  assert.match(html, /Technicien — Déploiement logiciel et assistance technique/);
+  assert.match(html, /Stagiaire — Déploiement logiciel et assistance technique/);
+  assert.match(html, /Formation informatique — Spéciales Vacances Utiles/);
+  assert.match(html, /TICNET/);
+  assert.match(html, /Zimbra/);
   assert.match(html, /NOC opérationnel/);
   assert.match(html, /Évolution structurée/);
   assert.match(html, /Sécurité &amp; continuité/);
@@ -85,6 +90,13 @@ test("keeps the authenticated career additions in both site versions", async () 
   assert.match(staticPage, /Technicien informatique et maintenance/);
   assert.match(staticPage, /Windows Server/);
   assert.match(staticPage, /Zimbra/);
+  assert.match(staticPage, /1er janvier — 25 avril 2020/);
+  assert.match(staticPage, /11 septembre — 31 décembre 2019/);
+  assert.match(staticPage, /Superviser l’équipe technique/);
+  assert.match(staticPage, /Formation informatique — Spéciales Vacances Utiles · CIB-INTA/);
+  const primaryTimeline = staticPage.slice(staticPage.indexOf('<div class="timeline">'), staticPage.indexOf('</div>\n    <details class="careerMore">'));
+  assert.ok(primaryTimeline.indexOf('SICPA TOGO') < primaryTimeline.indexOf('Technicien informatique et maintenance'));
+  assert.doesNotMatch(staticPage.slice(staticPage.indexOf('<details class="careerMore">')), /Technicien informatique et maintenance/);
   assert.match(staticPage, /Seuls l’adresse e-mail et le consentement sont obligatoires/);
   assert.doesNotMatch(staticPage, /Mars 2025 — Aujourd’hui/);
   assert.match(layout, /EPEY Pascal Chirac — Technicien NOC & Support IT N2/);
