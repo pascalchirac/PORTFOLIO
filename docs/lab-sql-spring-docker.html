@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lab SQL, Spring Boot & Docker — Guide illustré | EPEY Pascal Chirac</title>
+  <meta name="description" content="Un parcours illustré pour comprendre SQL, une API Java Spring Boot et Docker Compose à travers un cas fictif de gestion d’incidents IT. Explications accessibles aux débutants.">
+  <meta name="theme-color" content="#111612">
+  <link rel="canonical" href="https://pascalchirac.github.io/PORTFOLIO/lab-sql-spring-docker.html">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Des données au service — Lab SQL, Spring Boot & Docker">
+  <meta property="og:description" content="Trois schémas commentés, un même exemple de gestion d’incidents et une lecture progressive pour débuter.">
+  <meta property="og:url" content="https://pascalchirac.github.io/PORTFOLIO/lab-sql-spring-docker.html">
+  <meta property="og:image" content="https://pascalchirac.github.io/PORTFOLIO/assets/projects/lab-incidents-sql.webp">
+  <meta property="og:image:alt" content="Schéma SQL : analyser les incidents par service">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/epey-pascal-chirac.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#111612;--paper:#f2f0e9;--lime:#c8ff3d;--muted:#535b52;--line:#c9c8c0}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.75 'DM Sans',Arial,sans-serif}a{color:inherit;text-underline-offset:4px}a:focus-visible,summary:focus-visible,pre:focus-visible{outline:3px solid #547b0a;outline-offset:4px}.skip{position:fixed;top:12px;left:12px;z-index:100;padding:8px 15px;transform:translateY(-160%);background:var(--ink);color:white}.skip:focus{transform:none}.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 6vw;border-bottom:1px solid var(--line);background:rgba(242,240,233,.97);backdrop-filter:blur(12px)}.brand{font-weight:700;text-decoration:none;font-size:14px}.back{font-size:13px}.hero,.lesson,.connection,.references{padding:76px max(6vw,22px);border-bottom:1px solid var(--line)}.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin:0 0 20px}.hero h1{font:500 clamp(45px,6.4vw,88px)/1.05 'Manrope',Arial,sans-serif;letter-spacing:-.05em;margin:0 0 25px;max-width:1000px}.hero h1 span{color:#687063}.intro{max-width:850px;font-size:19px;color:var(--muted)}.context{max-width:930px;padding:18px 22px;border-left:4px solid #7b9b31;background:#e5e8da;font-size:14px;line-height:1.7}.context b{display:block;margin-bottom:5px}.context p{margin:0}.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:34px 0 0}.route a{display:block;padding:19px 22px;border:1px solid var(--ink);text-decoration:none}.route a:hover{background:var(--lime)}.route small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em}.route strong{display:block;font:600 22px 'Manrope';margin:9px 0}.route span{font-size:14px}.lesson h2,.connection h2,.references h2{font:600 clamp(30px,3.4vw,46px)/1.15 'Manrope';letter-spacing:-.035em;margin:0 0 20px}.lessonLead{max-width:850px;margin:0 0 35px;color:var(--muted);font-size:18px}.lessonGrid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.15fr);gap:42px;align-items:start}.diagram{margin:0;position:sticky;top:95px}.diagram a{display:block;border:1px solid #aeb4a7;background:white}.diagram img{display:block;width:100%;height:auto}.diagram figcaption{font-size:12px;line-height:1.55;margin-top:12px;color:var(--muted)}.comment{padding:22px 24px;background:var(--ink);color:white;margin:0 0 28px}.comment h3{color:var(--lime);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}.comment p{margin:0;font-size:15px;line-height:1.8}.explanation{min-width:0}.explanation h3{font:600 21px/1.35 'Manrope';margin:30px 0 12px}.explanation p{margin:0 0 18px}.steps{margin:0;padding-left:23px}.steps li{padding-left:5px;margin-bottom:14px}.steps li::marker{font-weight:700;color:#4a6c0b}.steps b{color:var(--ink)}code{font: .88em/1.6 Consolas,'Courier New',monospace;background:#e1e4d8;padding:2px 5px;border-radius:2px;overflow-wrap:anywhere}pre{max-width:100%;margin:18px 0;padding:20px;background:var(--ink);color:#ecf1e4;border:1px solid #3c473a;overflow-x:auto;line-height:1.7;font-size:13px}pre code{font:inherit;background:none;padding:0;color:inherit;overflow-wrap:normal}table{width:100%;border-collapse:collapse;margin:18px 0 22px;font-size:14px}caption{text-align:left;font-size:12px;font-weight:600;margin-bottom:8px}th,td{padding:9px 12px;border:1px solid var(--line);text-align:left}th{background:#e0e4d5}.takeaway{padding:17px 20px;border-left:4px solid #7a9c27;background:#e7eadc;margin-top:24px;font-size:14px}.takeaway p{margin:6px 0 0}details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 0 12px;margin-top:24px}summary{padding:16px 0;cursor:pointer;font-weight:600;font-size:14px}details p{font-size:14px}.connection{background:var(--ink);color:white}.connection .eyebrow{color:var(--lime)}.journey{max-width:900px;margin:30px 0;padding-left:26px}.journey li{padding-left:8px;margin-bottom:18px}.journey li::marker{color:var(--lime);font-weight:700}.connection code{background:#354030;color:white}.connection p{max-width:950px;color:#d2d9cc}.miniQuiz{max-width:950px;padding:21px;border:1px solid #697460}.miniQuiz h3{margin:0 0 10px;font-size:17px}.miniQuiz details{border-color:#697460}.miniQuiz summary{color:var(--lime)}.miniQuiz details p{color:white}.references h3{font:600 21px 'Manrope';margin:30px 0 16px}.glossary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:0 0 42px}.glossary div{padding:19px;border:1px solid var(--line)}dt{font-weight:700;font-size:14px}dd{margin:8px 0 0;font-size:14px;color:var(--muted)}.sources{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;padding-left:20px;font-size:14px}.sources li{padding-left:2px}.references .note{color:var(--muted);font-size:13px;max-width:860px}footer{display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap;background:#e3e3d8;padding:25px 6vw;font-size:12px}footer p{margin:0}@media(max-width:950px){.lessonGrid{grid-template-columns:1fr}.diagram{position:static;max-width:540px}.glossary{grid-template-columns:1fr 1fr}.hero,.lesson,.connection,.references{padding-top:55px;padding-bottom:55px}}@media(max-width:560px){html{scroll-padding-top:90px}.nav{padding:15px 22px}.brand{font-size:12px;max-width:145px;line-height:1.4}.back{font-size:11px}.route{grid-template-columns:1fr;gap:8px}.route a{padding:14px 17px}.route strong{font-size:20px;margin:5px 0}.hero h1{font-size:44px}.intro,.lessonLead{font-size:16px}.lessonGrid{gap:26px}.comment{padding:19px}.glossary,.sources{grid-template-columns:1fr}pre{font-size:12px;padding:15px}.lesson h2,.connection h2,.references h2{font-size:31px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    .comment code{background:#354030;color:white}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <header class="nav"><a class="brand" href="index.html#accueil">EPEY Pascal Chirac · Lab personnel</a><a class="back" href="index.html#lab-incidents">← Retour aux projets</a></header>
+  <main id="contenu">
+    <section class="hero" aria-labelledby="titre-lab">
+      <p class="eyebrow">SQL · Java & Spring Boot · Docker Compose</p>
+      <h1 id="titre-lab">Des données<br><span>au service.</span></h1>
+      <p class="intro">Comment un incident informatique passe-t-il d’un formulaire à une base de données ? Ce parcours relie trois technologies à travers un même cas fictif : enregistrer et suivre les incidents de services IT.</p>
+      <div class="context"><b>Un support d’étude personnel, accessible dès les premières notions</b><p>Ces schémas pédagogiques de niveau intermédiaire prolongent ma démarche de formation autour de SQL, Java & Spring Boot et Docker. Les explications partent des bases. Le scénario, les données et les résultats sont illustratifs ; cette page présente une architecture à comprendre et à expérimenter, avec des extraits de code, sans fournir une application complète prête à déployer.</p></div>
+      <nav class="route" aria-label="Parcours du laboratoire">
+        <a href="#sql"><small>01 · Les données</small><strong>SQL</strong><span>Relier les tables et compter les incidents.</span></a>
+        <a href="#spring"><small>02 · L’application</small><strong>Spring Boot</strong><span>Recevoir, vérifier et enregistrer une demande.</span></a>
+        <a href="#docker"><small>03 · L’environnement</small><strong>Docker Compose</strong><span>Faire communiquer l’API et sa base de données.</span></a>
+      </nav>
+    </section>
+
+    <section id="sql" class="lesson" aria-labelledby="titre-sql">
+      <p class="eyebrow">01 · Comprendre les données</p><h2 id="titre-sql">SQL — Compter sans perdre d’information.</h2>
+      <p class="lessonLead">SQL est un langage pour interroger une base de données relationnelle. Ici, la question est simple : combien d’incidents sont encore ouverts pour chaque service, y compris ceux qui n’en ont aucun ?</p>
+      <div class="lessonGrid">
+        <figure class="diagram"><a href="assets/projects/lab-incidents-sql.webp" target="_blank" rel="noreferrer" aria-label="Ouvrir le schéma SQL en grand dans un nouvel onglet"><img src="assets/projects/lab-incidents-sql.webp" alt="Schéma SQL : services.id est relié à incidents.service_id, puis une jointure LEFT JOIN et COUNT donnent DNS 2, VPN 1 et API 0." width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>Schéma 1 — Modèle relationnel, requête et lecture du résultat. Cliquer sur l’image pour l’agrandir.</figcaption></figure>
+        <div class="explanation">
+          <aside class="comment"><h3>Commentaire du schéma</h3><p>Lire ce visuel de haut en bas : d’abord les tables, ensuite la requête, enfin le tableau de résultat. La table <code>services</code> joue le rôle d’un catalogue ; la table <code>incidents</code> contient les événements rattachés à ce catalogue. Le point important est de garder visibles les services sans incident ouvert : un zéro apporte une information utile à la supervision.</p></aside>
+          <h3>1. Comprendre la relation entre les tables</h3>
+          <p>Une table ressemble à une feuille structurée : chaque ligne décrit un élément et chaque colonne décrit une propriété. Dans <code>services</code>, <code>id</code> identifie un service et <code>nom</code> contient son nom. Dans <code>incidents</code>, <code>service_id</code> indique le service concerné.</p>
+          <p><strong>PK</strong> signifie « clé primaire » : l’identifiant unique d’une ligne. <strong>FK</strong> signifie « clé étrangère » : une référence vers une ligne d’une autre table. La relation <strong>1 → N</strong> se lit ainsi : un service peut être associé à plusieurs incidents. Le lien relie donc <code>services.id</code> à <code>incidents.service_id</code>.</p>
+          <h3>2. Lire la requête étape par étape</h3>
+          <pre tabindex="0" aria-label="Requête SQL commentée dans le texte suivant"><code>SELECT s.nom, COUNT(i.id) AS ouverts
+FROM services AS s
+LEFT JOIN incidents AS i
+  ON i.service_id = s.id
+ AND i.statut = 'OUVERT'
+GROUP BY s.id, s.nom
+ORDER BY s.id;</code></pre>
+          <ol class="steps">
+            <li><b>Partir des services.</b> <code>FROM services AS s</code> choisit la table de départ. <code>s</code> et <code>i</code> sont des alias, des noms courts pour rendre la requête lisible.</li>
+            <li><b>Associer les incidents ouverts.</b> <code>ON</code> précise la correspondance entre les identifiants. La condition sur <code>statut</code> ne retient que les incidents ouverts parmi les lignes associées.</li>
+            <li><b>Conserver tous les services.</b> <code>LEFT JOIN</code> garde les lignes de la table de gauche, même sans incident correspondant. Déplacer le filtre de statut dans un <code>WHERE</code> peut éliminer ces services et changer le résultat.</li>
+            <li><b>Compter par service.</b> <code>GROUP BY</code> rassemble les lignes d’un même service ; <code>COUNT(i.id)</code> compte les identifiants non nuls. Le service sans correspondance obtient ainsi zéro. <code>COUNT(*)</code> compterait aussi la ligne conservée par la jointure.</li>
+            <li><b>Stabiliser l’affichage.</b> <code>ORDER BY s.id</code>, ajouté à la requête du schéma, fixe l’ordre des lignes. Sans cette clause, leur ordre n’est pas garanti.</li>
+          </ol>
+          <table><caption>Résultat attendu avec le jeu fictif ci-dessous</caption><thead><tr><th scope="col">Service</th><th scope="col">Incidents ouverts</th></tr></thead><tbody><tr><td>DNS</td><td>2</td></tr><tr><td>VPN</td><td>1</td></tr><tr><td>API</td><td>0</td></tr></tbody></table>
+          <p>DNS aide à trouver l’adresse d’une machine à partir de son nom ; un VPN fournit une connexion réseau privée ; une API est un point d’échange avec une application. Le tableau mesure ici le nombre d’incidents déclarés ouverts, et non la disponibilité réelle de ces services.</p>
+          <details><summary>Voir le petit jeu de données pour expérimenter</summary><p>Exemple SQL minimal pour une base d’exercice vide. Il correspond uniquement au premier schéma : le modèle de l’API ajoute ensuite des champs comme le titre et la date de création.</p><pre tabindex="0" aria-label="Tables et données de démonstration SQL"><code>CREATE TABLE services (
+  id INTEGER PRIMARY KEY,
+  nom VARCHAR(40) NOT NULL
+);
+CREATE TABLE incidents (
+  id INTEGER PRIMARY KEY,
+  service_id INTEGER NOT NULL REFERENCES services(id),
+  statut VARCHAR(10) NOT NULL
+    CHECK (statut IN ('OUVERT', 'FERME'))
+);
+INSERT INTO services VALUES (1, 'DNS'), (2, 'VPN'), (3, 'API');
+INSERT INTO incidents VALUES
+  (1, 1, 'OUVERT'), (2, 1, 'OUVERT'),
+  (3, 2, 'OUVERT'), (4, 1, 'FERME'), (5, 2, 'FERME');</code></pre></details>
+          <div class="takeaway"><b>Le détail intermédiaire : l’index candidat</b><p>Un index sur <code>(service_id, statut)</code> peut aider certaines recherches. Comme un index de livre, il facilite l’accès à des informations ciblées, mais occupe de l’espace et doit être mis à jour. Il faut étudier le plan avec <code>EXPLAIN</code> et mesurer sur des données représentatives avant de conclure à un gain.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="spring" class="lesson" aria-labelledby="titre-spring">
+      <p class="eyebrow">02 · Comprendre l’application</p><h2 id="titre-spring">Spring Boot — Une demande, plusieurs responsabilités.</h2>
+      <p class="lessonLead">Java est le langage utilisé pour écrire l’application. Spring Boot facilite la mise en place de l’environnement Spring. Dans cet exemple, une API reçoit une demande de création d’incident et organise son traitement.</p>
+      <div class="lessonGrid">
+        <figure class="diagram"><a href="assets/projects/lab-incidents-spring.webp" target="_blank" rel="noreferrer" aria-label="Ouvrir le schéma Spring Boot en grand dans un nouvel onglet"><img src="assets/projects/lab-incidents-spring.webp" alt="Architecture de l’API : requête HTTP, DTO validé, contrôleur, service métier, repository JPA et PostgreSQL, avec réponses 201, 400 et 404." width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>Schéma 2 — Chemin logique d’une requête et séparation des responsabilités. La validation est représentée avant le traitement métier.</figcaption></figure>
+        <div class="explanation">
+          <aside class="comment"><h3>Commentaire du schéma</h3><p>Les flèches montrent le parcours logique d’une demande, depuis son arrivée jusqu’à son enregistrement. Chaque bloc répond à une question différente : que reçoit-on, quelles règles appliquer et où conserver le résultat ? Cette séparation aide à localiser une erreur. Une demande mal remplie et une base inaccessible n’appellent pas le même diagnostic.</p></aside>
+          <h3>1. Ce que le client envoie</h3><p>Un « client » peut être une interface web ou un outil de test HTTP. <code>POST /api/incidents</code> signifie ici « demander la création d’un incident ». Le corps de la requête utilise <strong>JSON</strong>, un format texte composé de noms de champs et de valeurs :</p>
+          <pre tabindex="0" aria-label="Corps JSON d’une demande de création"><code>{
+  "serviceId": 2,
+  "titre": "VPN indisponible"
+}</code></pre>
+          <p><code>serviceId: 2</code> désigne le service VPN du jeu fictif. Le titre décrit le problème. Le client transmet ces informations ; c’est l’application qui décide si elles sont acceptables et comment les enregistrer.</p>
+          <h3>2. Le rôle de chaque couche</h3>
+          <ol class="steps">
+            <li><b>DTO — décrire les données entrantes.</b> Un Data Transfer Object est une structure qui représente la demande. <code>@NotNull</code> exige un identifiant fourni ; <code>@NotBlank</code> refuse un titre nul, vide ou constitué uniquement d’espaces. Dans Spring MVC, <code>@Valid</code> sur le DTO reçu déclenche la validation configurée. Ces contraintes ne prouvent pas que le service existe.</li>
+            <li><b>Controller — gérer l’échange HTTP.</b> Le contrôleur reçoit la requête, transmet la demande au service métier et construit la réponse destinée au client.</li>
+            <li><b>Service — appliquer les règles métier.</b> Il vérifie que le service référencé existe, construit l’incident puis demande son enregistrement. Le cadre <code>@Transactional</code> délimite le traitement transactionnel : validation des écritures ou annulation selon les règles de rollback configurées.</li>
+            <li><b>Repository — accéder aux données.</b> Spring Data JPA fournit une interface d’accès aux entités Java persistées. Une méthode <code>findByServiceId</code> peut exprimer une recherche à partir du modèle de l’entité. Le retour <code>List&lt;Incident&gt;</code> permet de récupérer plusieurs incidents pour un service.</li>
+            <li><b>PostgreSQL — conserver les enregistrements.</b> La base stocke les lignes. La commande <code>INSERT</code> du schéma illustre l’écriture ; le SQL réellement émis dépend du mapping JPA et de sa configuration.</li>
+          </ol>
+          <h3>3. Comprendre les réponses</h3>
+          <table><caption>Choix de réponses HTTP dans cet exemple</caption><thead><tr><th scope="col">Code</th><th scope="col">Lecture pour le débutant</th></tr></thead><tbody><tr><td><code>201</code></td><td>La ressource « incident » a été créée.</td></tr><tr><td><code>400</code></td><td>La demande est invalide, par exemple un titre vide.</td></tr><tr><td><code>404</code></td><td>Le service référencé est introuvable, si cette réponse est configurée par l’application.</td></tr></tbody></table>
+          <p><code>@RestControllerAdvice</code> centralise la traduction des exceptions en réponses lisibles. Il faut définir les gestionnaires et les messages : ajouter l’annotation seule ne crée pas automatiquement toutes les réponses du tableau.</p>
+          <div class="takeaway"><b>À retenir pour le support IT</b><p>Une erreur de validation se recherche d’abord dans les champs envoyés. Une erreur métier se recherche dans les règles de l’application. Un échec d’enregistrement demande aussi d’examiner les journaux et la connexion à la base. Le schéma sert à orienter la qualification de l’incident.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docker" class="lesson" aria-labelledby="titre-docker">
+      <p class="eyebrow">03 · Comprendre l’environnement</p><h2 id="titre-docker">Docker Compose — Relier et faire durer.</h2>
+      <p class="lessonLead">Un conteneur exécute un logiciel à partir d’une image, qui regroupe son contenu et ses dépendances. Compose décrit comment plusieurs services doivent démarrer, communiquer et utiliser leur stockage.</p>
+      <div class="lessonGrid">
+        <figure class="diagram"><a href="assets/projects/lab-incidents-docker.webp" target="_blank" rel="noreferrer" aria-label="Ouvrir le schéma Docker Compose en grand dans un nouvel onglet"><img src="assets/projects/lab-incidents-docker.webp" alt="Docker Compose : le client accède à l’API sur localhost 8080, l’API joint PostgreSQL sur db 5432 dans app_net, les données utilisent pgdata et le démarrage attend un healthcheck." width="1122" height="1402" loading="lazy" decoding="async"></a><figcaption>Schéma 3 — Deux services, un réseau, un volume et un contrôle de disponibilité au démarrage.</figcaption></figure>
+        <div class="explanation">
+          <aside class="comment"><h3>Commentaire du schéma</h3><p>Suivre d’abord les flèches du client vers l’API, puis de l’API vers la base. Le cadre <code>app_net</code> représente le réseau partagé par les conteneurs. Le cylindre <code>pgdata</code> représente le stockage conservé séparément. Ces trois éléments — accès, communication et persistance — expliquent l’essentiel du dessin.</p></aside>
+          <h3>1. Distinguer les deux chemins réseau</h3>
+          <ol class="steps">
+            <li><b>Du client à l’API.</b> Sur l’ordinateur qui exécute Docker, <code>localhost:8080</code> vise le port 8080 de cet ordinateur. La publication <code>8080:8080</code> fait correspondre ce port de l’hôte au port 8080 du conteneur API.</li>
+            <li><b>De l’API à la base.</b> Les services <code>api</code> et <code>db</code> partagent le réseau <code>app_net</code>. L’API utilise le nom de service <code>db</code> et le port PostgreSQL <code>5432</code>, plutôt qu’une adresse IP de conteneur susceptible de changer.</li>
+            <li><b>Comprendre localhost.</b> Dans le conteneur de l’API, <code>localhost</code> désigne ce conteneur, pas celui de PostgreSQL. C’est pourquoi la cible représentée est <code>db:5432</code>.</li>
+          </ol>
+          <p>La base n’a pas besoin de publier un port sur l’hôte pour communiquer avec l’API sur leur réseau partagé. Cette configuration ne remplace pas les droits d’accès et l’authentification de la base.</p>
+          <h3>2. Conserver les données</h3><p>Le volume nommé <code>pgdata</code> est un espace géré par Docker, distinct de la couche d’écriture du conteneur. Si le conteneur de base est recréé en réutilisant ce volume, les données peuvent être retrouvées. Il faut configurer son montage au bon emplacement pour l’image PostgreSQL choisie.</p><p><strong>Persistance ne signifie pas sauvegarde.</strong> Un volume peut lui aussi être supprimé ou endommagé. Il reste nécessaire de prévoir des copies et de tester leur restauration.</p>
+          <h3>3. Attendre une base prête</h3><p>Un conteneur démarré n’est pas forcément prêt à traiter des requêtes. Le <code>healthcheck</code> exécute un contrôle, par exemple <code>pg_isready</code> pour PostgreSQL. La dépendance <code>condition: service_healthy</code> indique à Compose d’attendre que ce contrôle réussisse avant de démarrer l’API.</p><p>Ce mécanisme organise le démarrage. L’application doit aussi gérer une perte de connexion ultérieure : il ne constitue pas, à lui seul, une solution de haute disponibilité.</p>
+          <h3>4. Lire les commandes d’exploitation</h3>
+          <pre tabindex="0" aria-label="Trois commandes Docker Compose"><code>docker compose up -d
+docker compose ps
+docker compose logs -f api</code></pre>
+          <ul class="steps"><li><code>up -d</code> crée ou met à jour les services définis dans le fichier Compose et les démarre en arrière-plan.</li><li><code>ps</code> affiche leur état et les ports publiés.</li><li><code>logs -f api</code> suit les journaux du service <code>api</code> au fil des nouveaux messages. Les journaux aident à comprendre ce qui échoue.</li></ul>
+          <p>Ces commandes supposent Docker et Compose installés, un fichier de configuration dans le répertoire courant et une image API disponible ou constructible. Le schéma décrit l’organisation ; il ne fournit pas ces fichiers.</p>
+          <div class="takeaway"><b>À retenir pour le diagnostic</b><p>Si l’API ne démarre pas, vérifier l’état de la base et ses journaux. Si elle démarre mais ne se connecte pas, contrôler le nom <code>db</code>, le réseau partagé, le port et les paramètres de connexion. Si les données disparaissent après recréation, examiner le volume monté.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="connection" aria-labelledby="titre-parcours"><p class="eyebrow">Relier les trois schémas</p><h2 id="titre-parcours">Un incident VPN, de bout en bout.</h2><ol class="journey"><li>Un utilisateur signale « VPN indisponible ». Le client envoie une requête <code>POST</code> avec le service 2 et un titre.</li><li>L’API Spring Boot vérifie la demande, contrôle le service référencé et prépare l’incident au statut <code>OUVERT</code>.</li><li>Le repository demande l’écriture dans PostgreSQL. Dans l’architecture Docker, la connexion passe par <code>db:5432</code> ; les données de la base sont conservées dans le volume monté.</li><li>Après création réussie, une nouvelle interrogation SQL montre un incident VPN ouvert supplémentaire. Si l’on part du tableau initial, son compteur passe de 1 à 2.</li></ol><p><strong>Lien avec mon parcours NOC et support IT :</strong> comprendre ces dépendances aide à distinguer une anomalie de données, une erreur applicative et un problème d’infrastructure. Ce parcours d’étude complète les compétences de qualification, de lecture des logs et d’escalade.</p><div class="miniQuiz"><h3>Vérifier sa compréhension</h3><p>Pourquoi garder API = 0 dans le tableau ? Pourquoi l’application utilise-t-elle <code>db</code> plutôt que <code>localhost</code> ? Et pourquoi conserver un volume ne suffit-il pas à protéger les données ?</p><details><summary>Afficher les réponses</summary><p>Le zéro confirme que le service figure dans le périmètre, même sans incident ouvert. Le nom <code>db</code> permet de joindre l’autre conteneur sur le réseau partagé, alors que <code>localhost</code> vise le conteneur courant. Enfin, un volume conserve les fichiers au-delà du cycle de vie d’un conteneur, mais une copie de sauvegarde indépendante et testée reste nécessaire.</p></details></div></section>
+
+    <section class="references" aria-labelledby="titre-reperes"><p class="eyebrow">Repères pour continuer</p><h2 id="titre-reperes">Quelques mots à garder en tête.</h2><dl class="glossary"><div><dt>API</dt><dd>Interface qui permet à un logiciel de demander des données ou une action à un autre logiciel.</dd></div><div><dt>HTTP & JSON</dt><dd>HTTP organise l’échange requête/réponse ; JSON représente ici les données échangées sous forme de texte structuré.</dd></div><div><dt>Transaction</dt><dd>Ensemble d’opérations dont on contrôle la validation ou l’annulation pour préserver la cohérence des données.</dd></div><div><dt>Image & conteneur</dt><dd>L’image fournit le modèle logiciel ; le conteneur est son instance d’exécution.</dd></div><div><dt>Port</dt><dd>Numéro qui identifie un point d’accès réseau à un service sur une machine ou dans un conteneur.</dd></div><div><dt>Logs</dt><dd>Journaux produits par un logiciel : événements, informations et erreurs utiles au suivi et au diagnostic.</dd></div></dl><h3>Documentation officielle pour approfondir</h3><ul class="sources"><li><a href="https://www.postgresql.org/docs/current/tutorial-join.html" target="_blank" rel="noreferrer">PostgreSQL — les jointures</a></li><li><a href="https://www.postgresql.org/docs/current/tutorial-agg.html" target="_blank" rel="noreferrer">PostgreSQL — les agrégations</a></li><li><a href="https://www.postgresql.org/docs/current/indexes-intro.html" target="_blank" rel="noreferrer">PostgreSQL — les index</a></li><li><a href="https://spring.io/guides/gs/rest-service/" target="_blank" rel="noreferrer">Spring — créer un service REST</a></li><li><a href="https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-validation.html" target="_blank" rel="noreferrer">Spring MVC — valider les données entrantes</a></li><li><a href="https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html" target="_blank" rel="noreferrer">Spring Data JPA — méthodes de recherche</a></li><li><a href="https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" target="_blank" rel="noreferrer">Spring — transactions avec @Transactional</a></li><li><a href="https://docs.docker.com/compose/how-tos/networking/" target="_blank" rel="noreferrer">Docker Compose — réseau et noms de services</a></li><li><a href="https://docs.docker.com/compose/how-tos/startup-order/" target="_blank" rel="noreferrer">Docker Compose — ordre et état de démarrage</a></li><li><a href="https://docs.docker.com/engine/storage/volumes/" target="_blank" rel="noreferrer">Docker — volumes et persistance</a></li></ul><p class="note">Visuels pédagogiques créés avec assistance IA et relus pour accompagner ce cas fictif. Les certificats de participation aux formations Orange Digital Center sont consultables dans la <a href="index.html#odc-2026">section Formations du portfolio</a>.</p></section>
+  </main>
+  <footer><p>© 2026 EPEY Pascal Chirac · Laboratoire personnel</p><a href="index.html#lab-incidents">Retour au portfolio ↑</a></footer>
+</body>
+</html>
